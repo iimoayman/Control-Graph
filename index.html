@@ -466,6 +466,27 @@ table.matrix td b{font-weight:800;color:#0f172a}
 
 footer{text-align:center;color:#94a3b8;font-size:12.5px;padding:16px 0 34px}
 
+.print-btn{
+  margin-top:14px;
+  background:rgba(255,255,255,.16);
+  border:1.5px solid rgba(255,255,255,.32);
+  color:#fff;
+  padding:7px 18px;
+  border-radius:99px;
+  font-family:inherit;
+  font-size:13.5px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  backdrop-filter:blur(6px);
+  position:relative;
+  z-index:3;
+}
+.print-btn:hover{background:rgba(255,255,255,.28);transform:translateY(-1px)}
+
 @media (max-width:760px){
   .split{grid-template-columns:1fr;gap:0}
   .bus{display:none}
@@ -476,14 +497,16 @@ footer{text-align:center;color:#94a3b8;font-size:12.5px;padding:16px 0 34px}
   .prog{flex-direction:column;text-align:center}
 }
 @media print{
-  @page{size:A4 portrait;margin:8mm}
-  body{background:#fff}
-  header.top{padding:16px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  header.top::after,nav.tabs{display:none}
-  .view{display:block!important;break-after:page}
-  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .node,.role{box-shadow:none;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0}
-  .flow{zoom:.74}
+  @page{size:A4 portrait;margin:10mm 8mm}
+  body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  header.top{padding:16px 12px 18px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  header.top::after,nav.tabs,footer,.print-btn{display:none!important}
+  .view{display:block!important;page-break-after:always!important;break-after:page!important}
+  .view:last-child{page-break-after:auto!important;break-after:auto!important}
+  .prog{margin:10px auto 16px!important;padding:14px 20px!important;break-inside:avoid!important;page-break-inside:avoid!important}
+  .node,.decision,.split,.branch,.milestone,.terminal,.role,tr{break-inside:avoid!important;page-break-inside:avoid!important}
+  .node,.role{box-shadow:none!important;border:1px solid #cbd5e1!important;border-inline-start-width:8px!important;padding:12px 16px!important}
+  .flow{zoom:.82!important}
 }
 </style>
 </head>
@@ -492,6 +515,7 @@ footer{text-align:center;color:#94a3b8;font-size:12.5px;padding:16px 0 34px}
   <div class="dots"></div>
   <h1>دورة عمل كنترول الامتحانات</h1>
   <p>منظومة العمل المتكاملة من رئيس الكنترول المركزي ورؤساء كنترول البرامج حتى اعتماد وإعلان النتائج</p>
+  <button class="print-btn" onclick="window.print()" title="طباعة أو حفظ بصيغة PDF">🖨️ طباعة / تصدير PDF</button>
 </header>
 
 <nav class="tabs" id="tabs"></nav>
@@ -542,12 +566,13 @@ function flow(p){
       <div class="hd">
         <div class="badge">1</div>
         <span class="team">رئيس الكنترول المركزي</span>
-        <div class="title">إطلاق دورة العمل والتنسيق العام والاستقبال من البرامج</div>
+        <div class="title">إطلاق الدورة والإشراف العام والتنسيق مع كافة الفرق داخل الكنترول</div>
       </div>
       <ul class="tasks numbered">
-        <li>متابعة طباعات الأسئلة والاستقبال من البرامج.</li>
-        <li>تزويد مسار الـ IT بقاعدة بيانات الطلاب (Database) الخاصة بالبرنامج.</li>
-        <li>تسليم وتوزيع جداول الامتحانات المعتمدة لرئيس كنترول البرنامج.</li>
+        <li>استلام اسئلة الامتحان من اعضاء هيئة التدريس.</li>
+        <li>تسليم وتوزيع الجداول علي رؤساء الكنترول.</li>
+        <li>تزويد فريق IT بقاعدة بيانات الطلاب (Database) المركزية المعتمدة.</li>
+        <li>متابعة وتوزيع جداول الامتحانات العامة لرؤساء كنترول البرامج.</li>
       </ul>
     </div>
     <div class="arrow"></div>
@@ -560,9 +585,8 @@ function flow(p){
         <div class="title">استقبال المتطلبات من الرئيس المركزي وتجهيز الطباعة والجداول</div>
       </div>
       <ul class="tasks numbered">
-        <li>استقبال أسئلة مواد البرنامج من الرئيس المركزي والتجهيز للطباعة.</li>
-        <li>استلام جداول الامتحانات من الرئيس المركزي وتنسيقها.</li>
-        <li>توزيع طلاب البرنامج إلى مجموعات ولجان وفق الجداول المعتمدة.</li>
+        <li>استلام الجداول من الرئيس المركزي وتجهيز فترات وأماكن الامتحانات.</li>
+        <li>مراجعة توزيع طلاب كل برنامج إلى مجموعات ولجان وفق الجداول المعتمدة من رئيس الكنترول المركزي.</li>
       </ul>
     </div>
     <div class="arrow short"></div>
@@ -788,12 +812,13 @@ function unifiedFlow(){
       <div class="hd">
         <div class="badge">1</div>
         <span class="team">رئيس الكنترول المركزي</span>
-        <div class="title">إطلاق الدورة والإشراف العام والتنسيق مع البرامج</div>
+        <div class="title">إطلاق الدورة والإشراف العام والتنسيق مع كافة الفرق داخل الكنترول</div>
       </div>
       <ul class="tasks numbered">
-        <li>متابعة طباعات الأسئلة والاستقبال من البرامج الثلاثة.</li>
+        <li>استلام اسئلة الامتحان من اعضاء هيئة التدريس.</li>
+        <li>تسليم وتوزيع الجداول علي رؤساء الكنترول.</li>
         <li>تزويد فريق IT بقاعدة بيانات الطلاب (Database) المركزية المعتمدة.</li>
-        <li>تسليم وتوزيع جداول الامتحانات العامة لرؤساء كنترول البرامج.</li>
+        <li>متابعة وتوزيع جداول الامتحانات العامة لرؤساء كنترول البرامج.</li>
       </ul>
     </div>
     <div class="arrow"></div>
@@ -806,9 +831,8 @@ function unifiedFlow(){
         <div class="title">استقبال المتطلبات من الرئيس المركزي وتجهيز الطباعة والجداول</div>
       </div>
       <ul class="tasks numbered">
-        <li>استقبال أسئلة مواد البرامج من الرئيس المركزي وتجهيزها للطباعة.</li>
-        <li>استلام الجداول من الرئيس المركزي وتنسيق فترات وأماكن الامتحانات.</li>
-        <li>توزيع طلاب كل برنامج إلى مجموعات ولجان وفق الجداول المعتمدة.</li>
+        <li>استلام الجداول من الرئيس المركزي وتجهيز فترات وأماكن الامتحانات.</li>
+        <li>مراجعة توزيع طلاب كل برنامج إلى مجموعات ولجان وفق الجداول المعتمدة من رئيس الكنترول المركزي.</li>
       </ul>
     </div>
     <div class="arrow short"></div>
@@ -1023,13 +1047,14 @@ function roles(){
 
   <div class="grid">
     <!-- بطاقة رئيس الكنترول المركزي -->
-    ${card("var(--central)","رئيس الكنترول المركزي","القيادة العامة والإشراف والتنسيق لجميع البرامج والاعتماد النهائي",
+    ${card("var(--central)","رئيس الكنترول المركزي","إطلاق الدورة والإشراف العام والتنسيق مع كافة الفرق داخل الكنترول والاعتماد النهائي",
       `<h4>المهام والاختصاصات</h4>
        <div style="--c:var(--central)">
          ${tasks([
-           "متابعة طباعات الأسئلة والاستقبال من البرامج الثلاثة.",
-           "تزويد مسار الـ IT بقاعدة بيانات الطلاب (Database) المعتمدة.",
-           "تسليم وتوزيع جداول الامتحانات المعتمدة لرؤساء كنترول البرامج.",
+           "استلام اسئلة الامتحان من اعضاء هيئة التدريس.",
+           "تسليم وتوزيع الجداول علي رؤساء الكنترول.",
+           "تزويد فريق IT بقاعدة بيانات الطلاب (Database) المركزية المعتمدة.",
+           "متابعة وتوزيع جداول الامتحانات العامة لرؤساء كنترول البرامج.",
            "استلام أوراق المقالي من فريق الـ IT ورفعها على السيستم بالتعاون مع رئيس البرنامج.",
            "تسليم أعضاء هيئة التدريس إجابات المقالي للتصحيح.",
            "متابعة استلام أوراق إجابات المقالي وفقًا للمواعيد المقررة.",
@@ -1046,9 +1071,8 @@ function roles(){
       `<h4>المهام والاختصاصات</h4>
        <div style="--c:var(--prog)">
          ${tasks([
-           "استقبال ملفات الأسئلة من رئيس الكنترول المركزي وتجهيزها للطباعة.",
-           "استلام جداول الامتحانات من رئيس الكنترول المركزي وتنسيق اللجان.",
-           "توزيع طلاب البرنامج إلى مجموعات ولجان وإعداد كشوف الحضور والغياب.",
+           "استلام الجداول من الرئيس المركزي وتجهيز فترات وأماكن الامتحانات.",
+           "مراجعة توزيع طلاب كل برنامج إلى مجموعات ولجان وفق الجداول المعتمدة من رئيس الكنترول المركزي.",
            "الإشراف على طباعة ورق الأسئلة وتسليمه لفريق التختيم والتظريف.",
            "استلام نتائج تصحيح أوراق البابل من فريق الـ IT.",
            "متابعة رفع أوراق المقالي على السيستم ومراجعة الأوراق وتدقيق رصدها.",
@@ -1116,16 +1140,16 @@ function roles(){
     </thead>
     <tbody>
       <tr>
-        <td><b>1. انطلاق الدورة والأسئلة</b></td>
+        <td><b>1. انطلاق الدورة والتنسيق العام</b></td>
         <td><span class="tag" style="--c:var(--central)">رئيس الكنترول المركزي</span></td>
-        <td>استقبال ومتابعة طباعات الأسئلة من البرامج، وتوفير الـ Database المركزية والجداول العامة.</td>
-        <td>البرامج الأكاديمية</td>
+        <td>استلام اسئلة الامتحان من اعضاء هيئة التدريس، تسليم وتوزيع الجداول علي رؤساء الكنترول، تزويد فريق IT بالـ Database المركزية، ومتابعة جداول الامتحانات العامة.</td>
+        <td>أعضاء التدريس + الكنترول المركزي</td>
         <td>رؤساء البرامج + فريق IT</td>
       </tr>
       <tr>
         <td><b>2. التجهيز البرامجي</b></td>
         <td><span class="tag" style="--c:var(--prog)">رئيس كنترول البرنامج</span></td>
-        <td>تجهيز وطباعة الأسئلة، تنسيق الجداول وتوزيع المجموعات واللجان، إعداد كشوف الحضور.</td>
+        <td>استلام الجداول من الرئيس المركزي وتجهيز فترات وأماكن الامتحانات، ومراجعة توزيع طلاب كل برنامج إلى مجموعات ولجان وفق الجداول المعتمدة.</td>
         <td>رئيس الكنترول المركزي</td>
         <td>فريق التختيم والتظريف</td>
       </tr>
